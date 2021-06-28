@@ -4,11 +4,13 @@ The developer at Mystique Unicorn are interested in building their application u
 
 In this application, Kubernetes has been chosen as the platform to host their application producing and consuming events. The producers and consumers are maintained by different teams. They would like to isolate the traffic and have the ability to allow only the necessary traffic. Can you help them acheive this?
 
-![Miztiik Automation: Kubernetes Pods on Fargate](images/miztiik_automation_eks_with_fargate_pods_architecture_000.png)
+![Miztiik Automation: Kubernetes Security with Network Policies](images/eks_security_with_network_policies_eks_security_with_network_policies_architecture_00.png)
 
 ## 🎯 Solutions
 
 By default, network traffic in a Kubernetes cluster can flow freely between pods and also leave the cluster network altogether. In an EKS cluster, because pods share their node’s EC2 security groups, the pods can make any network connection that the nodes can. Creating restrictions to allow only necessary service-to-service and cluster egress connections decreases the number of potential targets for malicious or misconfigured pods and limits their ability to exploit the cluster resources.
+
+![Miztiik Automation: Kubernetes Security with Network Policies](images/eks_security_with_network_policies_eks_security_with_network_policies_architecture_01.png)
 
 Kubernetes Network policies<sup>[1]</sup> can be used to specify how groups of pods are allowed to communicate with each other and with external network endpoints. They can be thought of as the Kubernetes equivalent of a firewall.
 Each network policy specifies a list of allowed (_ingress_ and _egress_) connections. When the network policy is created, all the pods that it applies to are _allowed_ to make or accept the connections listed in it. In other words, a network policy is essentially a list of _allowed_ connections – a connection to or from a pod is allowed if it is permitted by at least one of the network policies that apply to the pod. However remember that, if **NO** network policies apply to a pod, then **ALL** network connections to and from it are permitted.
@@ -193,6 +195,8 @@ In this blog, I will show how to deploy a simple network policy allow and deny a
 
       Connect to the Blue pod and try to access red pod using _curl_ or _wget_
 
+      ![Miztiik Automation: Kubernetes Security with Network Policies](images/eks_security_with_network_policies_eks_security_with_network_policies_architecture_02.png)
+
       ```bash
       kubectl -n miztiik-automation-ns exec --stdin --tty k-shop-blue -- /bin/bash
       ```
@@ -214,6 +218,8 @@ In this blog, I will show how to deploy a simple network policy allow and deny a
    1. **Connect to Red Pod To Test Blue Ingress**
 
       Connect to the Red pod and try to access Blue pod using _curl_ or _wget_
+
+      ![Miztiik Automation: Kubernetes Security with Network Policies](images/eks_security_with_network_policies_eks_security_with_network_policies_architecture_03.png)
 
       ```bash
       kubectl -n miztiik-automation-ns exec --stdin --tty k-shop-red -- /bin/bash
