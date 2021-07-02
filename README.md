@@ -183,7 +183,7 @@ In this blog, I will show how to deploy a simple network policy allow and deny a
 
       We will create two policies, one to show _allow_ and another to show _deny_
 
-      - **ALLOW** Policy - `allow-red-ingress-policy`. This policy allows pods with label `role:red` to receive ingress traffic from any pod within the same namespace. <sup><sub>You can extend this to allow ingress only from _blue_ pods or only from certain ip address etc.,</sub></sup>
+      - **ALLOW** Policy - `allow-red-ingress-policy`. This policy allows pods with label `role:red` to receive ingress traffic from any pod within the **same namespace**. <sup><sub>You can extend this to allow ingress only from _blue_ pods or only from certain ip address etc.,</sub></sup>
       - **DENY** Policy - `deny-blue-ingress-policy`. This policy denys all ingress traffic to pods with label `role:blue`
 
       ```bash
@@ -206,14 +206,14 @@ In this blog, I will show how to deploy a simple network policy allow and deny a
       Expected output,
 
       ```bash
-      root@k-shop-red:/# curl 10.10.0.210
+      root@k-shop-blue:/# curl 10.10.0.194
       <!DOCTYPE html>
       <html>
       <head>
       <title>Welc
       ```
 
-      As you can see, you cannot reach the blue pod. If you create a container in another namespace and try to reach the red pod, it will time out.
+      As you can see, you can reach the red pod. If you create a container in another namespace and try to reach the red pod, it will time out.
 
    1. **Connect to Red Pod To Test Blue Ingress**
 
@@ -230,12 +230,12 @@ In this blog, I will show how to deploy a simple network policy allow and deny a
       Expected output,
 
       ```bash
-      root@k-shop-blue:/# curl 10.10.0.194
+      root@k-shop-red:/# curl 10.10.0.210
       curl: (7) Failed to connect to 10.10.0.210 port 80: Connection timed out
       root@k-shop-red:/#
       ```
 
-      As you can see, you can reach the red pod. If you create a container in another namespace and try to reach the red pod, it will time out.
+      As you can see, you cannot reach the blue pod. If you create a container in another namespace and try to reach the blue pod, it will time out.
 
 1. ## 📒 Conclusion
 
